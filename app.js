@@ -1,16 +1,35 @@
 var bodyParser = require('body-parser'),
+mongoose	  = require("mongoose"),
 express 	   = require("express"),
 app			   = express(),
 port		   = 3000 ;
 
+mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser: true, useUnifiedTopology: true});
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
-	var campgrounds = [
-		{name:"salmon creek", image: "https://www.nps.gov/grte/planyourvisit/images/JLCG_tents_Teewinot_2008_mattson_1.JPG?maxwidth=1200&maxheight=1200&autorotate=false"},
-		{name:"granite hill", image: "https://www.pigeonforgechamber.com/wp-content/uploads/2018/05/campgrounds1.jpg"},
-		{name:"mountain rest", image: "https://www.mercurynews.com/wp-content/uploads/2016/10/outdoor-school_2.jpg?w=533"}
-	];
+
+// Schema Settup
+var campgroundSchema = new mongoose.Schema({
+	name: String,
+	image: String
+});
+
+
+var Campground=mongoose.model("Campground", campgroundSchema);
+
+// Campground.create(
+// 	{
+// 		name:"granite hill", 
+// 		image: "https://www.pigeonforgechamber.com/wp-content/uploads/2018/05/campgrounds1.jpg"
+// 	},function(err, campground){
+// 		if (err) {
+// 			console.log(err);
+// 		}else{
+// 			console.log("new campground added");
+// 			console.log(campground);
+// 		}
+// });
 
 
 
@@ -22,16 +41,26 @@ app.get("/", function(req, res){
 	res.render("landing");
 });
 app.get("/campgrounds", function(req, res){
- 
-	res.render("campgrounds", {campgrounds:campgrounds});
+	Campground.find({}, function(err, campgrounds){
+		if(err){
+			console.log(err);
+		}else{
+			res.render("campgrounds", {campgrounds:campgrounds});
+		}
+	}); 
 });
 
 app.post("/campgrounds", function(req, res){
 	var name = req.body.name;
 	var image = req.body.image;	
 	var newCampground = {name: name,image: image};
-	campgrounds.push(newCampground);
-	res.redirect("/campgrounds");
+	Campground.create(newCampground,function(err, campground){
+			if (err) {
+				console.log(err);
+			}else{
+				res.redirect("/campgrounds");
+			}
+	});
 });
 
 app.get("/campgrounds/new", function(req, res){
