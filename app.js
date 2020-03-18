@@ -12,7 +12,8 @@ app.set("view engine", "ejs");
 // Schema Settup
 var campgroundSchema = new mongoose.Schema({
 	name: String,
-	image: String
+	image: String,
+	description: String
 });
 
 
@@ -21,7 +22,8 @@ var Campground=mongoose.model("Campground", campgroundSchema);
 // Campground.create(
 // 	{
 // 		name:"granite hill", 
-// 		image: "https://www.pigeonforgechamber.com/wp-content/uploads/2018/05/campgrounds1.jpg"
+// 		image: "https://www.pigeonforgechamber.com/wp-content/uploads/2018/05/campgrounds1.jpg",
+// 		description: "this is a huge granite hill, no bathroom, no water, only beautiful granite"
 // 	},function(err, campground){
 // 		if (err) {
 // 			console.log(err);
@@ -45,15 +47,16 @@ app.get("/campgrounds", function(req, res){
 		if(err){
 			console.log(err);
 		}else{
-			res.render("campgrounds", {campgrounds:campgrounds});
+			res.render("index", {campgrounds:campgrounds});
 		}
 	}); 
 });
 
 app.post("/campgrounds", function(req, res){
 	var name = req.body.name;
-	var image = req.body.image;	
-	var newCampground = {name: name,image: image};
+	var image = req.body.image;
+	var description = req.body.description;	
+	var newCampground = {name: name,image: image, description: description};
 	Campground.create(newCampground,function(err, campground){
 			if (err) {
 				console.log(err);
@@ -66,4 +69,15 @@ app.post("/campgrounds", function(req, res){
 app.get("/campgrounds/new", function(req, res){
 	res.render("new");
 });
+
+app.get("/campgrounds/:id", function(req, res){
+	Campground.findById(req.params.id, function(err,foundCampground){
+			if (err) {
+				console.log(err);
+			}else{
+				res.render("show", {campground: foundCampground});
+			}
+	});
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
