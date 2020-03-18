@@ -7,9 +7,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
 	var campgrounds = [
-		{name:"salmon creek", image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Facadiamagic.com%2Flodging%2Fcamping.html&psig=AOvVaw3rToICV51wsL5JCDyxk_A8&ust=1584568005494000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMCt1P69ougCFQAAAAAdAAAAABAD"},
-		{name:"granite hill", image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fdailygazette.com%2Farticle%2F2018%2F07%2F02%2Fag-s-office-settles-with-three-adirondack-campgrounds&psig=AOvVaw3rToICV51wsL5JCDyxk_A8&ust=1584568005494000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMCt1P69ougCFQAAAAAdAAAAABAJ"},
-		{name:"mountain rest", image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwusfnews.wusf.usf.edu%2Fpost%2Fflorida-parks-close-overnight-campgrounds-comply-cdc-coronavirus-guidelines&psig=AOvVaw3rToICV51wsL5JCDyxk_A8&ust=1584568005494000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMCt1P69ougCFQAAAAAdAAAAABAO"}
+		{name:"salmon creek", image: "https://www.nps.gov/grte/planyourvisit/images/JLCG_tents_Teewinot_2008_mattson_1.JPG?maxwidth=1200&maxheight=1200&autorotate=false"},
+		{name:"granite hill", image: "https://www.pigeonforgechamber.com/wp-content/uploads/2018/05/campgrounds1.jpg"},
+		{name:"mountain rest", image: "https://www.mercurynews.com/wp-content/uploads/2016/10/outdoor-school_2.jpg?w=533"}
 	];
 
 
