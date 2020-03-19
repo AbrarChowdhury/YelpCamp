@@ -2,9 +2,10 @@
 // use the above to start mongod
 
 var bodyParser = require('body-parser'),
-mongoose	  = require("mongoose"),
+mongoose	   = require("mongoose"),
 express 	   = require("express"),
 Campground     = require("./models/campground"),
+Comment        = require("./models/comment"),
 seedDB		   = require("./seeds"),
 app			   = express(),
 port		   = 3000 ;
@@ -47,7 +48,7 @@ app.get("/campgrounds", function(req, res){
 		if(err){
 			console.log(err);
 		}else{
-			res.render("index", {campgrounds:campgrounds});
+			res.render("campgrounds/index", {campgrounds:campgrounds});
 		}
 	}); 
 });
@@ -67,7 +68,7 @@ app.post("/campgrounds", function(req, res){
 });
 
 app.get("/campgrounds/new", function(req, res){
-	res.render("new");
+	res.render("campgrounds/new");
 });
 
 app.get("/campgrounds/:id", function(req, res){
@@ -75,9 +76,45 @@ app.get("/campgrounds/:id", function(req, res){
 			if (err) {
 				console.log(err);
 			}else{
-				res.render("show", {campground: foundCampground});
+				res.render("campgrounds/show", {campground: foundCampground});
 			}
 	});
 });
+// ============================
+// comments routes
+// =====================
+app.get("/campgrounds/:id/comments/new", function(req, res){
+	Campground.findById(req.params.id, function(err,campground){
+			if (err) {
+				console.log(err);
+			}else{
+				res.render("comments/new", {campground: campground});
+			}
+	});
+});
+
+app.post("/campgrounds/:id/comments", function(req, res){
+	Campground.findById(req.params.id, function(err, campground){
+		if(err){
+			console.log(err);
+			redirect("/campgrounds");
+		}else{
+			console.log(req.body.comment);
+			var author = req.body.author;
+			var comment = req.body.comment;
+			var newComment = {text: comment, author: author};
+			Comment.create(newComment,function(err, comment){
+				if (err) {
+					console.log(err);
+				}else{
+					campground.comments.push(comment);
+					campground.save();
+					res.redirect("/campgrounds/" + campground._id);
+				}
+			});		
+		}
+	});
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
