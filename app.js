@@ -1,6 +1,10 @@
+// ---------------**** sudo systemctl start mongod ****------------------
+// use the above to start mongod
+
 var bodyParser = require('body-parser'),
 mongoose	  = require("mongoose"),
 express 	   = require("express"),
+Campground     = require("./models/campground"),
 app			   = express(),
 port		   = 3000 ;
 
@@ -10,14 +14,9 @@ app.set("view engine", "ejs");
 
 
 // Schema Settup
-var campgroundSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-});
 
 
-var Campground=mongoose.model("Campground", campgroundSchema);
+
 
 // Campground.create(
 // 	{
