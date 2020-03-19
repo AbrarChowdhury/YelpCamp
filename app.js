@@ -5,6 +5,7 @@ var bodyParser = require('body-parser'),
 mongoose	  = require("mongoose"),
 express 	   = require("express"),
 Campground     = require("./models/campground"),
+seedDB		   = require("./seeds"),
 app			   = express(),
 port		   = 3000 ;
 
@@ -12,7 +13,7 @@ mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser: true, useUnif
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
-
+seedDB();
 // Schema Settup
 
 
