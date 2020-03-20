@@ -13,32 +13,14 @@ port		   = 3000 ;
 mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser: true, useUnifiedTopology: true});
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
-
+app.use(express.static("public"));
 seedDB();
-// Schema Settup
 
 
+// _________________________________
 
-
-// Campground.create(
-// 	{
-// 		name:"granite hill", 
-// 		image: "https://www.pigeonforgechamber.com/wp-content/uploads/2018/05/campgrounds1.jpg",
-// 		description: "this is a huge granite hill, no bathroom, no water, only beautiful granite"
-// 	},function(err, campground){
-// 		if (err) {
-// 			console.log(err);
-// 		}else{
-// 			console.log("new campground added");
-// 			console.log(campground);
-// 		}
-// });
-
-
-
-
-
-
+//  Restful R.O.U.T.E.S
+// _________________________________
 
 app.get("/", function(req, res){
 	res.render("landing");
@@ -99,7 +81,6 @@ app.post("/campgrounds/:id/comments", function(req, res){
 			console.log(err);
 			redirect("/campgrounds");
 		}else{
-			console.log(req.body.comment);
 			var author = req.body.author;
 			var comment = req.body.comment;
 			var newComment = {text: comment, author: author};
