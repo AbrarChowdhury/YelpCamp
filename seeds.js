@@ -7,7 +7,7 @@ var data =[
 	{
 		name:"granite hill", 
 		image: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTBrgzOaYgh4C6VjzVIxi3ZT3DD3Xx-EX2hsNMbLWzK5nBbTMdq",
-		description: "this is a huge granite hill, no bathroom, no water, only beautiful granite"
+		description: "This is a huge granite hill, no bathroom, no water, only beautiful granite"
  	},
  	{
 		name:"Clouds Rest", 
@@ -30,28 +30,28 @@ function seedDB(){
 		}
 		console.log("removed campgrounds");
 			//adds campgrounds
-		data.forEach(function(seed){
-			Campground.create(seed, function(err,campground){
-				if(err){
-					console.log(err);
-				}else{
-					console.log("added a campground");
-					Comment.create(
-						{
-							text: "this place is great but i wish there was internet", 
-							author: "abrar" 
-						}, function(err, comment){
-							if(err){
-								console.log(err);
-							}else{
-								console.log("created new comment");
-								campground.comments.push(comment);
-								campground.save();	
-							}
-						});
-				}
-			});
-		});
+		// data.forEach(function(seed){
+		// 	Campground.create(seed, function(err,campground){
+		// 		if(err){
+		// 			console.log(err);
+		// 		}else{
+		// 			console.log("added a campground");
+		// 			Comment.create(
+		// 				{
+		// 					text: "this place is great but i wish there was internet", 
+		// 					author: "abrar" 
+		// 				}, function(err, comment){
+		// 					if(err){
+		// 						console.log(err);
+		// 					}else{
+		// 						console.log("created new comment");
+		// 						campground.comments.push(comment);
+		// 						campground.save();	
+		// 					}
+		// 				});
+		// 		}
+		// 	});
+		// });
 	});	
 
 	//adds comments

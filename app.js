@@ -8,8 +8,8 @@ Campground     = require("./models/campground"),
 Comment        = require("./models/comment"),
 User           = require("./models/user"),
 seedDB		   = require("./seeds"),
-// The authentication kabjab
 
+// The authentication kabjab
 passport 	   = require("passport"),
 LocalStrategy  = require("passport-local"),
 
@@ -43,7 +43,7 @@ app.use(function(req, res, next){
 	next();
 });
 
-seedDB();
+// seedDB();
 
 // ROUTES are connected here,
 // could have added common PREFIX of the LINKS
