@@ -45,14 +45,10 @@ router.get("/campgrounds/:id", function(req, res){
 });
 
 //Edit Campground Routes
-router.get("/campgrounds/:id/edit", function(req,res){
-	Campground.findById( req.params.id,function(err, foundCampground){
-		if(err){
-			res.redirect("/campgrounds");
-		}else{			
-			res.render("campgrounds/edit",{campground: foundCampground});
-		}
-	});
+router.get("/campgrounds/:id/edit",checkCampgroundOwnership, function(req,res){
+		Campground.findById( req.params.id,function(err, foundCampground){
+			res.render("campgrounds/edit", {campground: foundCampground});
+		});
 
 });
 
@@ -90,6 +86,24 @@ function isLoggedIn(req,res, next){
 		return next();
 	}
 	res.redirect("/login");
+}
+function checkCampgroundOwnership(req,res,next){
+	if(req.isAuthenticated()){
+		Campground.findById( req.params.id,function(err, foundCampground){
+			if(err){
+				res.redirect("back");
+			}else{		
+				if(foundCampground.author.id.equals(req.user._id)){
+					next();
+				}else{
+					res.redirect("back");
+				}
+			}
+		});
+	}else{
+		console.log("you need to be logged in to do that");
+		res.redirect("back");
+	}	
 }
 
 module.exports = router;
