@@ -8,6 +8,7 @@ Campground     = require("./models/campground"),
 Comment        = require("./models/comment"),
 User           = require("./models/user"),
 seedDB		   = require("./seeds"),
+methodOverride = require('method-override'),
 
 // The authentication kabjab
 passport 	   = require("passport"),
@@ -25,7 +26,7 @@ mongoose.connect("mongodb://localhost/yelp_camp",{useNewUrlParser: true, useUnif
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-
+app.use(methodOverride("_method"));
 // PASSOORT CONFIGURATION
 app.use(require("express-session")({
 	secret: "once again rusty wins cutest dog!",

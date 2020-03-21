@@ -2,7 +2,6 @@ var express    = require("express");
 var router     = express.Router();
 var Comment    = require("../models/comment");
 var Campground = require("../models/campground");
-
 router.get("/campgrounds", function(req, res){
 	Campground.find({}, function(err, campgrounds){
 		if(err){
@@ -42,6 +41,33 @@ router.get("/campgrounds/:id", function(req, res){
 			}else{
 				res.render("campgrounds/show", {campground: foundCampground});
 			}
+	});
+});
+
+//Edit Campground Routes
+router.get("/campgrounds/:id/edit", function(req,res){
+	Campground.findById( req.params.id,function(err, foundCampground){
+		if(err){
+			res.redirect("/campgrounds");
+		}else{			
+			res.render("campgrounds/edit",{campground: foundCampground});
+		}
+	});
+
+});
+
+//Update Campground Routes
+router.put("/campgrounds/:id", function(req, res){
+	var name = req.body.name;
+	var image = req.body.image;
+	var description = req.body.description;	
+	var updatedCampground = {name: name,image: image, description: description};	
+	Campground.findByIdAndUpdate(req.params.id, updatedCampground, function(err, updatedCampground){
+		if(err){
+			res.redirect("/campgrounds");
+		}else{
+			res.redirect("/campgrounds/"+req.params.id);
+		}
 	});
 });
 

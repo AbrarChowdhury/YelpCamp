@@ -12,12 +12,14 @@
 		<div class="col-md-9">
 			<div class="thumbnail">
 				<img class="img-responsive" src="<%=campground.image%>" alt="image">
+				
 				<div class="caption-full">
-				<h1 class="pull-right">$9.00/night</h1>
-				<h4><a><%=campground.name%></a></h4>
-				<p><%=campground.description%></p>
-				<em><p>Submitted By <%=campground.author.username%></p>
-				</div></em>
+					<h1 class="pull-right">$9.00/night</h1>
+					<h4><a><%=campground.name%></a></h4>
+					<p><%=campground.description%></p>
+					<em><p>Submitted By <%=campground.author.username%></p></em>
+					<a class="btn btn-warning" href="/campgrounds/<%=campground._id%>/edit">Edit</a>	
+				</div>
 				
 			</div>
 			<div class="well">
