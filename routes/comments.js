@@ -31,6 +31,7 @@ router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
 					comment.save();
 					campground.comments.push(comment);
 					campground.save(); 
+					req.flash("success", "Successfully added comment");
 					res.redirect("/campgrounds/" + campground._id);
 				}
 			});		
@@ -67,6 +68,7 @@ router.delete("/campgrounds/:id/comments/:comment_id",checkCommentOwnership, fun
 		if(err){
 			res.redirect("back");
 		}else{
+			req.flash("success", "Comment deleted");
 			res.redirect("/campgrounds/" + req.params.id);
 		}
 	});
@@ -77,6 +79,7 @@ function isLoggedIn(req,res, next){
 	if(req.isAuthenticated()){
 		return next();
 	}
+	req.flash("error","Please Login First");
 	res.redirect("/login");
 }
 
@@ -84,17 +87,20 @@ function checkCommentOwnership(req,res,next){
 	if(req.isAuthenticated()){
 		Comment.findById( req.params.comment_id,function(err, foundComment){
 			if(err){
+				req.flash("error","Comment not found");		
 				res.redirect("back");
 			}else{		
 				if(foundComment.author.id.equals(req.user._id)){
 					next();
 				}else{
+					req.flash("error","You do not have permission to do that");
 					res.redirect("back");
+							
 				}
 			}
 		});
 	}else{
-		console.log("you need to be logged in to do that");
+		req.flash("error","You need to be logged in to do that");
 		res.redirect("back");
 	}	
 }

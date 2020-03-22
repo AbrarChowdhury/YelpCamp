@@ -9,7 +9,7 @@ Comment        = require("./models/comment"),
 User           = require("./models/user"),
 seedDB		   = require("./seeds"),
 methodOverride = require('method-override'),
-
+flash		   = require('connect-flash'),
 // The authentication kabjab
 passport 	   = require("passport"),
 LocalStrategy  = require("passport-local"),
@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 // PASSOORT CONFIGURATION
 app.use(require("express-session")({
 	secret: "once again rusty wins cutest dog!",
@@ -41,6 +42,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
 	next();
 });
 

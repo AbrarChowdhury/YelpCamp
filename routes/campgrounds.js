@@ -60,8 +60,10 @@ router.put("/campgrounds/:id", function(req, res){
 	var updatedCampground = {name: name,image: image, description: description};	
 	Campground.findByIdAndUpdate(req.params.id, updatedCampground, function(err, updatedCampground){
 		if(err){
+			req.flash("error", "Could not update campground");
 			res.redirect("/campgrounds");
 		}else{
+			req.flash("success, Campground Updated.");
 			res.redirect("/campgrounds/"+req.params.id);
 		}
 	});
@@ -73,6 +75,7 @@ router.delete("/campgrounds/:id", function(req, res){
 		if(err){
 			res.redirect("/campgrounds");
 		}else{
+			req.flash("success","Campground  Removed");
 			res.redirect("/campgrounds");
 		}
 	});
@@ -85,23 +88,26 @@ function isLoggedIn(req,res, next){
 	if(req.isAuthenticated()){
 		return next();
 	}
+	req.flash("error","Please Login First");
 	res.redirect("/login");
 }
 function checkCampgroundOwnership(req,res,next){
 	if(req.isAuthenticated()){
 		Campground.findById( req.params.id,function(err, foundCampground){
 			if(err){
+				req.flash("error","Error! Campground not found");
 				res.redirect("back");
 			}else{		
 				if(foundCampground.author.id.equals(req.user._id)){
 					next();
 				}else{
+					req.flash("error","You do not have permission to do that");
 					res.redirect("back");
 				}
 			}
 		});
 	}else{
-		console.log("you need to be logged in to do that");
+		req.flash("error", "You need to be logged in to do that");
 		res.redirect("back");
 	}	
 }
