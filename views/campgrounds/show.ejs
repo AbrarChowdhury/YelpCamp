@@ -2,19 +2,15 @@
 <div class="container">
 
 	<div class="row">
-		<div class="col-md-3">
-			<p class="lead">YelpCamp</p>
-			<div class="list-group"></div>
-				<li class="list-group-item active">Info 1</li>
-				<li class="list-group-item">Info 2</li>
-				<li class="list-group-item">Info 3</li>
-			</div>
-		<div class="col-md-9">
+		<div class="col-md-1">
+		
+		</div>
+		<div class="col-md-10">
 			<div class="thumbnail">
 				<img class="img-responsive" src="<%=campground.image%>" alt="image">
 				
 				<div class="caption-full">
-					<h1 class="pull-right">$9.00/night</h1>
+					<h1 class="pull-right">$<%=campground.price%>/Night</h1>
 					<h4><a><%=campground.name%></a></h4>
 					<p><%=campground.description%></p>
 					<em><p>Submitted By <%=campground.author.username%></p></em>
@@ -57,6 +53,9 @@
 					
 				<% }) %>
 			</div>
+		</div>
+		<div class="col-md-1">
+		
 		</div>
 	</div>
 </div>

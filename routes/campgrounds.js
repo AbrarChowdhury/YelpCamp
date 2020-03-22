@@ -14,13 +14,14 @@ router.get("/campgrounds", function(req, res){
 
 router.post("/campgrounds", isLoggedIn, function(req, res){
 	var name = req.body.name;
+	var price = req.body.name;
 	var image = req.body.image;
 	var description = req.body.description;	
 	var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newCampground = {name: name,image: image, description: description, author: author};
+	var newCampground = {name: name, price:price, image: image, description: description, author: author};
 	Campground.create(newCampground,function(err, campground){
 			if (err) {
 				console.log(err);
@@ -55,9 +56,10 @@ router.get("/campgrounds/:id/edit",checkCampgroundOwnership, function(req,res){
 //Update Campground Routes
 router.put("/campgrounds/:id", function(req, res){
 	var name = req.body.name;
+	var price = req.body.price;
 	var image = req.body.image;
 	var description = req.body.description;	
-	var updatedCampground = {name: name,image: image, description: description};	
+	var updatedCampground = {name: name, price: price, image: image, description: description};	
 	Campground.findByIdAndUpdate(req.params.id, updatedCampground, function(err, updatedCampground){
 		if(err){
 			req.flash("error", "Could not update campground");
